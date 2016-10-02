@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fsn.twitter.dao.twit.TwitMapper">
+
+    <select id="select" parameterType="com.fsn.twitter.dao.auth.AuthVo" resultType="com.fsn.twitter.dao.twit.TwitVo">
+        SELECT   t.*, u.user_name
+          FROM tw_twit_info t
+        LEFT JOIN tw_user_info u ON u.user_idx = t.twit_wr_user_idx
+        WHERE t.twit_wr_user_idx IN (${user_idxs}) AND t.twit_del_flag = 'N'
+        ORDER BY twit_wr_date desc
+    </select>
+    
+    <select id="selectFriendChk" parameterType="com.fsn.twitter.dao.auth.AuthVo" resultType="com.fsn.twitter.dao.twit.TwitVo">
+    	SELECT friend_user_idxs
+          FROM tw_user_relation_info
+         WHERE user_idx = #{user_idx}
+    </select>
+    
+    <select id="getUserSelect" parameterType="com.fsn.twitter.dao.auth.AuthVo" resultType="com.fsn.twitter.dao.twit.TwitVo">
+    	SELECT user_idx, user_name, user_id
+          FROM tw_user_info
+         WHERE user_idx NOT IN (${user_idxs})
+    </select>
+    
+    <insert id="follow_ok" parameterType="com.fsn.twitter.dao.user.UserVo" >
+    	INSERT INTO tw_user_relation_info (user_idx, friend_user_idxs)
+    	VALUE (#{user_idx}, '${target_user_idx}')
+    	ON DUPLICATE KEY UPDATE friend_user_idxs = '${target_user_idx}' 
+    </insert>
+
+    <insert id="twit_insert" parameterType="com.fsn.twitter.dao.twit.TwitVo" >
+         INSERT INTO tw_twit_info ( twit_content, twit_wr_user_idx, twit_wr_date ) 
+         VALUES ( #{twit_content}, #{twit_wr_user_idx}, #{twit_wr_date} )
+    </insert>
+    
+    <update id="twit_delete" parameterType="com.fsn.twitter.dao.twit.TwitVo" >
+         UPDATE tw_twit_info SET twit_del_flag = 'Y'
+         WHERE twit_idx = #{twit_idx}
+    </update>
+
+</mapper>

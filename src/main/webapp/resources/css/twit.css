@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+body{height:500px; width:100%;};
+.login {width:30%; margin:0 auto;}
+.left {float:left; width:20%; position: relative; margin-right:20px;}
+.center {float:left; width:40%; height:100%; position: relative; margin-right:20px; overflow:scroll}
+.right {float:left; width:30%; height:100%; position: relative; overflow: scroll; text-align:center;}
+
+
+.align_c {text-align: center;}
+.twit_content {text-align: center; margin-top: 10px; margin-bottom: 10px;}
+.new_twit {text-align:center;}

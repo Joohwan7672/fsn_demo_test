@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fsn.twitter.dao.user.UserMapper">
+
+    <select id="select" parameterType="com.fsn.twitter.dao.user.UserVo" resultType="com.fsn.twitter.dao.user.UserVo" >
+        SELECT  * FROM tw_user_info
+    </select>
+    
+    <select id="get_user_dup_check" parameterType="com.fsn.twitter.dao.user.UserVo" resultType="java.lang.String" >
+    	SELECT user_idx FROM tw_user_info WHERE user_id = #{user_id}
+    </select>
+
+    <insert id="user_insert">
+         INSERT INTO tw_user_info ( user_name, user_id, user_password, user_reg_date ) 
+         VALUES ( #{user_name}, #{user_id}, password(#{user_password}), #{user_reg_date} )
+    </insert>
+
+</mapper>
